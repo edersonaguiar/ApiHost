@@ -3,6 +3,7 @@ package Comunication;
 public class ConfigMaquina {
 
 	private int code;
+	private String urlServer;
 	private String message;
 	private String trx;
 	private String time;
@@ -82,6 +83,14 @@ public class ConfigMaquina {
 
 	public void setDefaultGateway(String defaultGateway) {
 		this.defaultGateway = defaultGateway;
+	}
+	
+	public String getUrlServer() {
+		return urlServer;
+	}
+
+	public void setUrlServer(String urlServer) {
+		this.urlServer = urlServer;
 	}
 
 	@Override
