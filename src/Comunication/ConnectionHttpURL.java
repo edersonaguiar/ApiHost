@@ -183,7 +183,7 @@ public class ConnectionHttpURL {
 			ConvertJsonTXT(jsonValueTxt);
 			
 			String path = "infoAtm.txt";
-			manipuladorArquivo.leitor(path);
+			manipuladorArquivo.leitor(path,0);
 
 		}
 

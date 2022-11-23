@@ -1,2 +1,2 @@
-agency:3987
-hostname: 5010
+agency=3987
+hostname=5010

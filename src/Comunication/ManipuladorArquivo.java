@@ -11,20 +11,32 @@ import java.util.Scanner;
 
 public class ManipuladorArquivo {
 
-	public static void leitor(String path) throws IOException {
+	public static void leitor(String path, int line) throws IOException {
 		BufferedReader buffRead = new BufferedReader(new FileReader(path));
-		String linha = "";
-		ArrayList result = new ArrayList();
-		while (true) {
-			if (linha != null) {
+		
+		ArrayList<String> linhas = new ArrayList<>();
+        String linha = ""; 
 
-				System.out.println(linha);
+         while ((linha=buffRead.readLine()) != null){
 
-			} else
-				break;
-			linha = buffRead.readLine();
-			
-		}
+             linhas.add(linha);
+
+         }
+         
+         System.out.print(linhas.get(line));
+		
+		
+//		while (true) {
+//			if (linha == 1) {
+//				System.out.println(buffRead.readLine());
+//
+//
+//			} else {
+//				System.out.println(buffRead.);
+//			} 
+//				break;
+//			
+//		}
 		
 		buffRead.close();
 	}
