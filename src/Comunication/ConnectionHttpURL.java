@@ -141,7 +141,41 @@ public class ConnectionHttpURL {
 			
 
 				// print result
-				ConvertJsonXml(responseServer.getBody().toString());
+	    
+	    String xmlString = "<?xml version=\"1.0\"?>" +
+				"<paises>" +
+					"<pais sigla=\"BR\">" +
+						"<nome>Brasil</nome>" +
+						"<populacao>196655014</populacao>" +
+					"</pais>" +
+					"<pais sigla=\"AR\">" +
+						"<nome>Argentina</nome>" +
+						"<populacao>40764561</populacao>" +
+					"</pais>" +
+				"</paises>";
+	    
+				JSONObject paisesJson = XML.toJSONObject(xmlString);
+
+				System.out.println(paisesJson.toString());
+
+				JSONObject novoPaisesJSON = new JSONObject(responseServer.getBody());
+
+				String xmlStr2 = XML.toString(novoPaisesJSON);
+				
+				System.out.println(xmlStr2);
+
+				// usa try-catch para armazenar dados XML no arquivo.  
+	            FileWriter file =  new  FileWriter( "C:\\Temp\\Teste\\ArquivosConfigDados_atm.xml" );  
+	                  
+	                // usa o método write() de File para gravar dados XML em XMLData.txt  
+	            	file.write(xmlStr2);   
+	            	file.flush();  
+	                System.out.println( "Seus dados XML foram gravados com sucesso em XMLData.xml" );  
+	                  
+	                // fecha o FileWriter  
+	                file.close();  
+				
+				//ConvertJsonXml(xmlStr2);
 				
 //				ConvertJsonTXT(jsonValueTxt);
 //
