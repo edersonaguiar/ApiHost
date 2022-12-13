@@ -16,5 +16,15 @@
 	<classpathentry kind="lib" path="C:/Users/edesilva/Documents/Insomnia/xml-serializer-1.0.71.jar"/>
 	<classpathentry kind="lib" path="C:/Users/edesilva/Documents/xstream.jar"/>
 	<classpathentry kind="lib" path="C:/Users/edesilva/Documents/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Documents/http-request-3.0.0-beta1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Documents/http-request-3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/jar_files (3).zip"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Documents/unirest-java-1.4.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/httpcore-4.3.jar/httpcore-4.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/httpcore-4.4.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/httpcore-nio-4.4.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/httpclient-4.3-beta1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/httpasyncclient-4.0-beta4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/commons-logging-api-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

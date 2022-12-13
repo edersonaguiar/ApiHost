@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <OSDJuncao>BDN000003987</OSDJuncao>
+  <OSDComputerName>BDN000007002</OSDComputerName>
+  <OSDBradescoIP>10.255.225.27</OSDBradescoIP>
+  <OSDBradescoMascara>255.255.255.128</OSDBradescoMascara>
+  <OSDBradescoGateway>10.255.225.12</OSDBradescoGateway>
+  <OSDBradescoXID>01605035</OSDBradescoXID>
+  <OSDBradescoBDNModelo>09</OSDBradescoBDNModelo>
+</parameters>

@@ -12,6 +12,18 @@ public class ConfigMaquina {
 	private String networkMask;
 	private String networkAddress;
 	private String defaultGateway;
+	private String Propriedade;
+	private String number;
+	
+	public ConfigMaquina(String Propriedade, String number) {
+		super();
+		this.Propriedade = Propriedade;
+		this.number = number;
+	}
+
+	public ConfigMaquina(ConfigMaquina configMaquina) {
+	
+	}
 
 	public int getCode() {
 		return code;
@@ -84,7 +96,7 @@ public class ConfigMaquina {
 	public void setDefaultGateway(String defaultGateway) {
 		this.defaultGateway = defaultGateway;
 	}
-	
+
 	public String getUrlServer() {
 		return urlServer;
 	}
