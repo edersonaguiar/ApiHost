@@ -40,7 +40,6 @@ public class ConnectionHttpURL {
 	ManipuladorArquivo manipuladorArquivo = new ManipuladorArquivo();
 
 	LogGenerator logGenerator = new LogGenerator();
-	
 
 	public static void main(String[] args) throws Exception {
 
@@ -60,25 +59,24 @@ public class ConnectionHttpURL {
 
 		// String url = "https://mockbin.org/bin/88a73107-8e14-41c1-9000-bf4e6d9c0332";
 
-		//String path = "c:/Temp/Teste/infoAtm.txt";
-		//String agency = manipuladorArquivo.leitor(path, 0);
-		//String hostname = manipuladorArquivo.leitor(path, 1);
+		// String path = "c:/Temp/Teste/infoAtm.txt";
+		// String agency = manipuladorArquivo.leitor(path, 0);
+		// String hostname = manipuladorArquivo.leitor(path, 1);
 
 		// System.out.println(agency + hostname);
 
-
 		readPropertyXML(true);
-		
+		checkEnvironment(true);
+
 		String agencyNumber = configMaquina.getAgency();
 		String hostnameNumber = configMaquina.getHostname();
-		
-		
-		
+
 		// Unirest.setTimeouts(0, 10);
 		HttpResponse<String> responseServer = Unirest.post(
 				"http://10.243.151.130:9080/atmm_webservice_negocio/hostname/obter_dados_rede_atm/v1/json/post.nm")
 				.header("content-type", "application/json;charset=UTF-8;").header("content-language", "en-US")
-				.body("{\r\n    \"agency\":" + agencyNumber + ",\r\n    \"hostname\":" + hostnameNumber + "\r\n}").asString();
+				.body("{\r\n    \"agency\":" + agencyNumber + ",\r\n    \"hostname\":" + hostnameNumber + "\r\n}")
+				.asString();
 
 		String url = "http://10.243.151.130:9080/atmm_webservice_negocio/hostname/obter_dados_rede_atm/v1/json/post.nm";
 
@@ -215,8 +213,8 @@ public class ConnectionHttpURL {
 		}
 
 	}
-	
-	public static void readPropertyXML(Boolean execut) throws Exception{
+
+	public static void readPropertyXML(Boolean execut) throws Exception {
 		File fXmlFile = new File("C:\\Temp\\Teste\\htalog.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -226,39 +224,85 @@ public class ConnectionHttpURL {
 		String OSDBradescoIP = "";
 		String OSDBradescoMascara = "";
 		String OSDBradescoGateway = "";
-		
+
 		System.out.println("Root do elemento: " + doc.getDocumentElement().getNodeName());
 		NodeList nList = doc.getElementsByTagName("parameters");
-		
+
 		System.out.println("----------------------------");
 		for (int temp = 0; temp < nList.getLength(); temp++) {
 			Node nNode = nList.item(temp);
-			//System.out.println("\nElemento corrente :" + nNode.getNodeName());
+			// System.out.println("\nElemento corrente :" + nNode.getNodeName());
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) nNode;
-				
-				
-				 agencia = eElement.getElementsByTagName("OSDJuncao").item(0).getTextContent();
-				 OSDComputerName = eElement.getElementsByTagName("OSDComputerName").item(0).getTextContent();
-				 OSDBradescoIP = eElement.getElementsByTagName("OSDBradescoIP").item(0).getTextContent();
-				 OSDBradescoMascara = eElement.getElementsByTagName("OSDBradescoMascara").item(0).getTextContent();
-				 OSDBradescoGateway = eElement.getElementsByTagName("OSDBradescoGateway").item(0).getTextContent();
-				 agencia = agencia.substring(agencia.length()-4);
-				 OSDComputerName = OSDComputerName.substring(OSDComputerName.length()-4);
-				
+
+				agencia = eElement.getElementsByTagName("OSDJuncao").item(0).getTextContent();
+				OSDComputerName = eElement.getElementsByTagName("OSDComputerName").item(0).getTextContent();
+				OSDBradescoIP = eElement.getElementsByTagName("OSDBradescoIP").item(0).getTextContent();
+				OSDBradescoMascara = eElement.getElementsByTagName("OSDBradescoMascara").item(0).getTextContent();
+				OSDBradescoGateway = eElement.getElementsByTagName("OSDBradescoGateway").item(0).getTextContent();
+				agencia = agencia.substring(agencia.length() - 4);
+				OSDComputerName = OSDComputerName.substring(OSDComputerName.length() - 4);
+
 				configMaquina.setAgency(agencia);
 				configMaquina.setHostname(OSDComputerName);
-				
-				
+
 				System.out.println("AGENCIA: " + agencia);
 				System.out.println("ATM: " + OSDComputerName);
 				System.out.println("IP: " + OSDBradescoIP);
 				System.out.println("MASCARA: " + OSDBradescoMascara);
 				System.out.println("GATEWAY: " + OSDBradescoGateway);
-				
+
 			}
 		}
+
+	}
+
+	public static void checkEnvironment(Boolean execut) throws Exception {
+		File fXmlFile = new File("C:\\Temp\\Teste\\apiConfig.xml");
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(fXmlFile);
+		String environment = "";
+		String url = "";
+
+		System.out.println("Root do elemento: " + doc.getDocumentElement().getNodeName());
+		NodeList nList = doc.getElementsByTagName("SERVERS");
+
+		System.out.println("----------------------------");
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node nNode = nList.item(temp);
+			// System.out.println("\nElemento corrente :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+
+				environment = eElement.getElementsByTagName("ENVIRONMENT").item(0).getTextContent();
+
+			}
+		}
+
+			NodeList sList = doc.getElementsByTagName("SERVERS");
+
+			for (int temp = 0; temp < sList.getLength(); temp++) {
+				Node nNode = sList.item(temp);
+				// System.out.println("\nElemento corrente :" + nNode.getNodeName());
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+
+					if (environment.equalsIgnoreCase("TU3")){
+						url = eElement.getElementsByTagName("TU3").item(0).getTextContent();
+					} else if (environment.equalsIgnoreCase("TU4")){
+						url = eElement.getElementsByTagName("TU4").item(0).getTextContent();
+					} else if (environment.equalsIgnoreCase("TUH")){
+						url = eElement.getElementsByTagName("TUH").item(0).getTextContent();
+					} else if (environment.equalsIgnoreCase("TH")){
+						url = eElement.getElementsByTagName("TH").item(0).getTextContent();
+					}
+				}
+			}
+			System.out.println(url);
+			configMaquina.setUrlServer(url);
 		
+
 	}
 
 }
