@@ -10,15 +10,22 @@ import org.w3c.dom.Element;
 
 public class LerXML {
 
+	static ConfigMaquina configMaquina = new ConfigMaquina();
+	
 	public static void main(String[] args) throws Exception{	
-		lerXML();		
+		readPropertyXML(true);		
 	}
 	
-	private static void lerXML() throws Exception{
+	public static String readPropertyXML(Boolean execut) throws Exception{
 		File fXmlFile = new File("htalog.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
+		String agencia = "";
+		String OSDComputerName = "";
+		String OSDBradescoIP = "";
+		String OSDBradescoMascara = "";
+		String OSDBradescoGateway = "";
 		
 		System.out.println("Root do elemento: " + doc.getDocumentElement().getNodeName());
 		NodeList nList = doc.getElementsByTagName("parameters");
@@ -31,15 +38,16 @@ public class LerXML {
 				Element eElement = (Element) nNode;
 				
 				
-				String agencia = eElement.getElementsByTagName("OSDJuncao").item(0).getTextContent();
-				String OSDComputerName = eElement.getElementsByTagName("OSDComputerName").item(0).getTextContent();
-				String OSDBradescoIP = eElement.getElementsByTagName("OSDBradescoIP").item(0).getTextContent();
-				String OSDBradescoMascara = eElement.getElementsByTagName("OSDBradescoMascara").item(0).getTextContent();
-				String OSDBradescoGateway = eElement.getElementsByTagName("OSDBradescoGateway").item(0).getTextContent();
-				agencia = agencia.substring(agencia.length()-4);
-				OSDComputerName = OSDComputerName.substring(OSDComputerName.length()-4);
+				 agencia = eElement.getElementsByTagName("OSDJuncao").item(0).getTextContent();
+				 OSDComputerName = eElement.getElementsByTagName("OSDComputerName").item(0).getTextContent();
+				 OSDBradescoIP = eElement.getElementsByTagName("OSDBradescoIP").item(0).getTextContent();
+				 OSDBradescoMascara = eElement.getElementsByTagName("OSDBradescoMascara").item(0).getTextContent();
+				 OSDBradescoGateway = eElement.getElementsByTagName("OSDBradescoGateway").item(0).getTextContent();
+				 agencia = agencia.substring(agencia.length()-4);
+				 OSDComputerName = OSDComputerName.substring(OSDComputerName.length()-4);
 				
-				
+				configMaquina.setAgency(agencia);
+				configMaquina.setHostname(OSDComputerName);
 				
 				
 				System.out.println("AGENCIA: " + agencia);
@@ -47,7 +55,11 @@ public class LerXML {
 				System.out.println("IP: " + OSDBradescoIP);
 				System.out.println("MASCARA: " + OSDBradescoMascara);
 				System.out.println("GATEWAY: " + OSDBradescoGateway);
+				
 			}
 		}
+		
+		return agencia + OSDComputerName;
+
 	}
 }
