@@ -1,5 +1,6 @@
 package Comunication;
 
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -11,6 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -25,7 +27,7 @@ import org.w3c.dom.NodeList;
 
 import com.mashape.unirest.http.*;
 
-public class ConnectionHttpURL {
+public class ConnectionHttpURL extends ConfigMaquina {
 
 	private static final String FILE_JSON = "c:/Temp/Teste/infoAtm.txt";
 
@@ -70,6 +72,14 @@ public class ConnectionHttpURL {
 
 		String agencyNumber = configMaquina.getAgency();
 		String hostnameNumber = configMaquina.getHostname();
+		
+		
+		JOptionPane.showConfirmDialog(null, "Erro ao baixar os dados de rede do ATM \n Deseja continuar?");
+		
+		JOptionPane.showMessageDialog(null, "Dados de Rede Atualizados\n"
+				+ "Network Address: 10.255.225.48\n"
+				+ "Network Mask: 255.255.0.0\n"
+				+ "Default Gateway: 142.72.112.41");
 
 		// Unirest.setTimeouts(0, 10);
 		HttpResponse<String> responseServer = Unirest.post(
@@ -220,10 +230,11 @@ public class ConnectionHttpURL {
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
 		String agencia = "";
-		String OSDComputerName = "";
-		String OSDBradescoIP = "";
-		String OSDBradescoMascara = "";
-		String OSDBradescoGateway = "";
+		String osdComputerName = "";
+		String osdBradescoXID = "";
+		String osdBradescoIP = "";
+		String osdBradescoMascara = "";
+		String osdBradescoGateway = "";
 
 		System.out.println("Root do elemento: " + doc.getDocumentElement().getNodeName());
 		NodeList nList = doc.getElementsByTagName("parameters");
@@ -236,21 +247,27 @@ public class ConnectionHttpURL {
 				Element eElement = (Element) nNode;
 
 				agencia = eElement.getElementsByTagName("OSDJuncao").item(0).getTextContent();
-				OSDComputerName = eElement.getElementsByTagName("OSDComputerName").item(0).getTextContent();
-				OSDBradescoIP = eElement.getElementsByTagName("OSDBradescoIP").item(0).getTextContent();
-				OSDBradescoMascara = eElement.getElementsByTagName("OSDBradescoMascara").item(0).getTextContent();
-				OSDBradescoGateway = eElement.getElementsByTagName("OSDBradescoGateway").item(0).getTextContent();
+				osdComputerName = eElement.getElementsByTagName("OSDComputerName").item(0).getTextContent();
+				osdBradescoXID = eElement.getElementsByTagName("OSDBradescoXID").item(0).getTextContent();
+				osdBradescoIP = eElement.getElementsByTagName("OSDBradescoIP").item(0).getTextContent();
+				osdBradescoMascara = eElement.getElementsByTagName("OSDBradescoMascara").item(0).getTextContent();
+				osdBradescoGateway = eElement.getElementsByTagName("OSDBradescoGateway").item(0).getTextContent();
 				agencia = agencia.substring(agencia.length() - 4);
-				OSDComputerName = OSDComputerName.substring(OSDComputerName.length() - 4);
+				osdComputerName = osdComputerName.substring(osdComputerName.length() - 4);
 
 				configMaquina.setAgency(agencia);
-				configMaquina.setHostname(OSDComputerName);
-
+				configMaquina.setHostname(osdComputerName);
+				configMaquina.setXid(osdBradescoXID);
+				configMaquina.setNetworkAddress(osdBradescoIP);
+				configMaquina.setNetworkMask(osdBradescoMascara);
+				configMaquina.setDefaultGateway(osdBradescoGateway);
+				
+				
 				System.out.println("AGENCIA: " + agencia);
-				System.out.println("ATM: " + OSDComputerName);
-				System.out.println("IP: " + OSDBradescoIP);
-				System.out.println("MASCARA: " + OSDBradescoMascara);
-				System.out.println("GATEWAY: " + OSDBradescoGateway);
+				System.out.println("ATM: " + osdComputerName);
+				System.out.println("IP: " + osdBradescoIP);
+				System.out.println("MASCARA: " + osdBradescoMascara);
+				System.out.println("GATEWAY: " + osdBradescoGateway);
 
 			}
 		}
@@ -301,8 +318,8 @@ public class ConnectionHttpURL {
 			}
 			System.out.println(url);
 			configMaquina.setUrlServer(url);
-		
 
 	}
+
 
 }

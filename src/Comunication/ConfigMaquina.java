@@ -9,6 +9,7 @@ public class ConfigMaquina {
 	private String time;
 	private String agency;
 	private String hostname;
+	private String xid;
 	private String networkMask;
 	private String networkAddress;
 	private String defaultGateway;
@@ -98,6 +99,14 @@ public class ConfigMaquina {
 	public String toString() {
 		return "ConfigMaquina(" + "code=" + code + ", message= " + message + ", trx= " + trx + ", networkMask= "
 				+ networkMask + ", networkAddress= " + networkAddress + ", defaultGateway=" + defaultGateway + "}";
+	}
+
+	public String getXid() {
+		return xid;
+	}
+
+	public void setXid(String xid) {
+		this.xid = xid;
 	}
 
 }

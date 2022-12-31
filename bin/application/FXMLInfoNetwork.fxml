@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="531.0" prefWidth="943.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLController">
+   <children>
+      <Label fx:id="networkAddressDig" layoutX="50.0" layoutY="305.0" prefHeight="39.0" prefWidth="146.0" text="Endereço de IP:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ipNetworkAddressDig" disable="true" layoutX="184.0" layoutY="309.0" prefWidth="187.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+      <Label fx:id="defaultGatewayDig" layoutX="50.0" layoutY="415.0" text="Gateway:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ipNetworkMaskDig" disable="true" layoutX="184.0" layoutY="358.0" prefHeight="31.0" prefWidth="187.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="ipNetworkGatewayDig" disable="true" layoutX="184.0" layoutY="410.0" prefHeight="31.0" prefWidth="187.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+      <Label fx:id="titulo" layoutX="204.0" layoutY="47.0" prefHeight="47.0" prefWidth="592.0" text="Dados de Configurações Atualizados" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Label>
+      <Label fx:id="networkMaskDig" layoutX="48.0" layoutY="363.0" prefHeight="21.0" prefWidth="134.0" text="Máscara de Rede:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="dadosDigitados" layoutX="117.0" layoutY="230.0" prefHeight="47.0" prefWidth="187.0" text="Dados Digitados:">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="networkAddressBase" layoutX="491.0" layoutY="305.0" prefHeight="39.0" prefWidth="146.0" text="Endereço de IP:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ipNetworkAddressBase" disable="true" layoutX="629.0" layoutY="309.0" prefWidth="187.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+      <Label fx:id="networkMaskBase" layoutX="489.0" layoutY="363.0" prefHeight="21.0" prefWidth="134.0" text="Máscara de Rede:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="defaultGatewayBase" layoutX="491.0" layoutY="415.0" text="Gateway:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ipNetworkMaskBase" disable="true" layoutX="629.0" layoutY="358.0" prefHeight="31.0" prefWidth="187.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="ipNetworkGatewayBase" disable="true" layoutX="629.0" layoutY="410.0" prefHeight="31.0" prefWidth="187.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+      <Label fx:id="dadosBaseDeDados" layoutX="532.0" layoutY="230.0" prefHeight="47.0" prefWidth="259.0" text="Dados da Base de Dados:">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberBdn" layoutX="50.0" layoutY="134.0" prefHeight="39.0" prefWidth="146.0" text="Número de BDN:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="bdnCamp" disable="true" layoutX="184.0" layoutY="138.0" prefWidth="187.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="386.0" layoutY="134.0" prefHeight="39.0" prefWidth="35.0" text="XID:" fx:id="xid">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField disable="true" layoutX="430.0" layoutY="138.0" prefWidth="187.0" fx:id="xidCamp">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+      <Label fx:id="juncao" layoutX="629.0" layoutY="134.0" prefHeight="39.0" prefWidth="65.0" text="Junção:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="juncaoCamp" disable="true" layoutX="698.0" layoutY="138.0" prefWidth="187.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>
