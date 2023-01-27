@@ -2,25 +2,28 @@ package Comunication;
 
 public class ConfigMaquina {
 
-	private int code;
-	private String urlServer;
-	private String message;
-	private String trx;
-	private String time;
-	private String agency;
-	private String hostname;
-	private String xid;
-	private String networkMask;
-	private String networkAddress;
-	private String defaultGateway;
+	private static String code;
+	private static String urlServer;
+	private static String message;
+	private static String trx;
+	private static String time;
+	private static String agency;
+	private static String hostname;
+	private static String xid;
+	private static String networkMask;
+	private static String networkAddress;
+	private static String defaultGateway;
+	private static String networkMaskJamNM;
+	private static String networkAddressJamNM;
+	private static String defaultGatewayJamNM;
 	
 
-	public int getCode() {
+	public static String getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
+	public static void setCode(String code) {
+		ConfigMaquina.code = code;
 	}
 
 	public String getMessage() {
@@ -28,7 +31,7 @@ public class ConfigMaquina {
 	}
 
 	public void setMessage(String message) {
-		this.message = message;
+		ConfigMaquina.message = message;
 	}
 
 	public String getTrx() {
@@ -36,7 +39,7 @@ public class ConfigMaquina {
 	}
 
 	public void setTrx(String trx) {
-		this.trx = trx;
+		ConfigMaquina.trx = trx;
 	}
 
 	public String getTime() {
@@ -44,55 +47,55 @@ public class ConfigMaquina {
 	}
 
 	public void setTime(String time) {
-		this.time = time;
+		ConfigMaquina.time = time;
 	}
 
-	public String getAgency() {
+	public static String getAgency() {
 		return agency;
 	}
 
-	public void setAgency(String agency) {
-		this.agency = agency;
+	public static void setAgency(String agency) {
+		ConfigMaquina.agency = agency;
 	}
 
-	public String getHostname() {
+	public static String getHostname() {
 		return hostname;
 	}
 
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
+	public static void setHostname(String hostname) {
+		ConfigMaquina.hostname = hostname;
 	}
 
-	public String getNetworkMask() {
+	public static String getNetworkMask() {
 		return networkMask;
 	}
 
-	public void setNetworkMask(String networkMask) {
-		this.networkMask = networkMask;
+	public static void setNetworkMask(String networkMask) {
+		ConfigMaquina.networkMask = networkMask;
 	}
 
-	public String getNetworkAddress() {
+	public static String getNetworkAddress() {
 		return networkAddress;
 	}
 
-	public void setNetworkAddress(String networkAddress) {
-		this.networkAddress = networkAddress;
+	public static void setNetworkAddress(String networkAddress) {
+		ConfigMaquina.networkAddress = networkAddress;
 	}
 
-	public String getDefaultGateway() {
+	public static String getDefaultGateway() {
 		return defaultGateway;
 	}
 
-	public void setDefaultGateway(String defaultGateway) {
-		this.defaultGateway = defaultGateway;
+	public static void setDefaultGateway(String defaultGateway) {
+		ConfigMaquina.defaultGateway = defaultGateway;
 	}
 
-	public String getUrlServer() {
+	public static String getUrlServer() {
 		return urlServer;
 	}
 
 	public void setUrlServer(String urlServer) {
-		this.urlServer = urlServer;
+		ConfigMaquina.urlServer = urlServer;
 	}
 
 	@Override
@@ -101,12 +104,36 @@ public class ConfigMaquina {
 				+ networkMask + ", networkAddress= " + networkAddress + ", defaultGateway=" + defaultGateway + "}";
 	}
 
-	public String getXid() {
+	public static String getXid() {
 		return xid;
 	}
 
-	public void setXid(String xid) {
-		this.xid = xid;
+	public static void setXid(String xid) {
+		ConfigMaquina.xid = xid;
+	}
+
+	public static String getNetworkMaskJamNM() {
+		return networkMaskJamNM;
+	}
+
+	public static void setNetworkMaskJamNM(String networkMaskJamNM) {
+		ConfigMaquina.networkMaskJamNM = networkMaskJamNM;
+	}
+
+	public static String getNetworkAddressJamNM() {
+		return networkAddressJamNM;
+	}
+
+	public static void setNetworkAddressJamNM(String networkAddressJamNM) {
+		ConfigMaquina.networkAddressJamNM = networkAddressJamNM;
+	}
+
+	public static String getDefaultGatewayJamNM() {
+		return defaultGatewayJamNM;
+	}
+
+	public static void setDefaultGatewayJamNM(String defaultGatewayJamNM) {
+		ConfigMaquina.defaultGatewayJamNM = defaultGatewayJamNM;
 	}
 
 }

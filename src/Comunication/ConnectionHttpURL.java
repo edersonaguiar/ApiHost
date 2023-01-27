@@ -5,7 +5,10 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -13,9 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
+import org.apache.http.HttpException;
 import org.json.JSONML;
 import org.json.JSONObject;
 import org.json.XML;
@@ -24,18 +35,29 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.mashape.unirest.http.*;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.codehaus.jackson.JsonNode;
+
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.utils.*;
+import com.mashape.unirest.http.Unirest;
+
+
+import application.FXMLControllerSelectModel;
 
 public class ConnectionHttpURL extends ConfigMaquina {
 
 	private static final String FILE_JSON = "c:/Temp/Teste/infoAtm.txt";
 
-	private static final ConfigMaquina ConfigMaquina = null;
+	// private static final ConfigMaquina ConfigMaquina = null;
 
 	public static XMLSerializer xmlSerializer = new XMLSerializer();
 
-	static ConfigMaquina configMaquina = new ConfigMaquina();
+	static ConfigMaquina ConfigMaquina = new ConfigMaquina();
 
 	JSONObject objetoJson = new JSONObject();
 
@@ -43,7 +65,11 @@ public class ConnectionHttpURL extends ConfigMaquina {
 
 	LogGenerator logGenerator = new LogGenerator();
 
-	public static void main(String[] args) throws Exception {
+	private String url;
+
+	// private String response;
+
+	public static void main() throws Exception {
 
 		ConnectionHttpURL obj = new ConnectionHttpURL();
 
@@ -70,27 +96,59 @@ public class ConnectionHttpURL extends ConfigMaquina {
 		readPropertyXML(true);
 		checkEnvironment(true);
 
-		String agencyNumber = configMaquina.getAgency();
-		String hostnameNumber = configMaquina.getHostname();
-		
-		
-		JOptionPane.showConfirmDialog(null, "Erro ao baixar os dados de rede do ATM \n Deseja continuar?");
-		
-		JOptionPane.showMessageDialog(null, "Dados de Rede Atualizados\n"
-				+ "Network Address: 10.255.225.48\n"
-				+ "Network Mask: 255.255.0.0\n"
-				+ "Default Gateway: 142.72.112.41");
+		String agencyNumber = ConfigMaquina.getAgency();
+		String hostnameNumber = ConfigMaquina.getHostname();
+		url = ConfigMaquina.getUrlServer();
 
-		// Unirest.setTimeouts(0, 10);
-		HttpResponse<String> responseServer = Unirest.post(
-				"http://10.243.151.130:9080/atmm_webservice_negocio/hostname/obter_dados_rede_atm/v1/json/post.nm")
-				.header("content-type", "application/json;charset=UTF-8;").header("content-language", "en-US")
-				.body("{\r\n    \"agency\":" + agencyNumber + ",\r\n    \"hostname\":" + hostnameNumber + "\r\n}")
+		System.out.println(url);
+		System.out.println(agencyNumber);
+		System.out.println(hostnameNumber);
+
+//		JOptionPane.showConfirmDialog(null, "Erro ao baixar os dados de rede do ATM \n Deseja continuar?");
+//		
+//		JOptionPane.showMessageDialog(null, "Dados de Rede Atualizados\n"
+//				+ "Network Address: 10.255.225.48\n"
+//				+ "Network Mask: 255.255.0.0\n"
+//				+ "Default Gateway: 142.72.112.41");
+
+		// Unirest.setTimeouts(0, 3);
+
+		try {
+		
+		HttpResponse<String> response = Unirest.post(url).header("content-type", "application/json;charset=UTF-8")
+				.header("content-language", "en-US")
+				.body("{\r\n  \"agency\": " + agencyNumber + ",\r\n  \"hostname\": " + hostnameNumber + "\r\n}")
 				.asString();
+		
+		ConvertJsonXml(
+		"{" +
+			   "parameters"+":"+ 
+			   response.getBody() +
+			   
+			"}");
+		readPropertyXMLJamNM(true);
+		
+       // Document document = convertStringToXml(response.getBody());
 
-		String url = "http://10.243.151.130:9080/atmm_webservice_negocio/hostname/obter_dados_rede_atm/v1/json/post.nm";
+        //String xml = convertXmlToString(document);
 
-		System.out.println(responseServer.getBody());
+
+//		
+//		JSONObject jsoObject = new JSONObject(response.getBody());
+//
+//		 Document document = convertStringToXml(jsoObject.toString());
+//
+//	        // XML Document to String
+//	        String xml = convertXmlToString(document);
+//	        System.out.println(xml);
+//	        
+	       
+		
+	
+		
+		// ConfigMaquina.setTrx(response.getStatusText());
+
+		// responseServer.getBody();
 
 		// URL urlConnection = new URL(null, "https://redmine.xxx.cz/time_entries.xml",
 		// new sun.net.www.protocol.https.Handler());
@@ -152,32 +210,14 @@ public class ConnectionHttpURL extends ConfigMaquina {
 
 		// print result
 
-		String xmlString = "<?xml version=\"1.0\"?>" + "<paises>" + "<pais sigla=\"BR\">" + "<nome>Brasil</nome>"
-				+ "<populacao>196655014</populacao>" + "</pais>" + "<pais sigla=\"AR\">" + "<nome>Argentina</nome>"
-				+ "<populacao>40764561</populacao>" + "</pais>" + "</paises>";
 
-		JSONObject paisesJson = XML.toJSONObject(xmlString);
+	} catch (Exception e) {
+			System.out.println("ERROR"+ e);
+			Comunication.ConfigMaquina.setCode("404");
+			
+		}
 
-		System.out.println(paisesJson.toString());
-
-		JSONObject novoPaisesJSON = new JSONObject(responseServer.getBody());
-
-		String xmlStr2 = XML.toString(novoPaisesJSON);
-
-		System.out.println(xmlStr2);
-
-		// usa try-catch para armazenar dados XML no arquivo.
-		FileWriter file = new FileWriter("C:\\Temp\\Teste\\ArquivosConfigDados_atm.xml");
-
-		// usa o método write() de File para gravar dados XML em XMLData.txt
-		file.write(xmlStr2);
-		file.flush();
-		System.out.println("Seus dados XML foram gravados com sucesso em XMLData.xml");
-
-		// fecha o FileWriter
-		file.close();
-
-		// ConvertJsonXml(xmlStr2);
+		//onvertJsonXml(xmlStr2);
 
 //				ConvertJsonTXT(jsonValueTxt);
 //
@@ -187,13 +227,15 @@ public class ConnectionHttpURL extends ConfigMaquina {
 	}
 
 	public static String ConvertJsonXml(String JsonDados) {
+
 		String xml = "";
+		
 		try {
-			// JSONObject jsoObject = new JSONObject(configMaquinaList);
-			xml = xml + XML.toString(JsonDados);
+			JSONObject jsoObject = new JSONObject(JsonDados);
+			xml = xml + XML.toString( jsoObject );
 
 			FileWriter writeFile = null;
-			writeFile = new FileWriter("c:/Temp/Teste/ArquivosConfigDados_atm.xml");
+			writeFile = new FileWriter("c:/Temp/Teste/DadosJamNM.xml");
 			writeFile.write(xml);
 
 			writeFile.close();
@@ -255,14 +297,13 @@ public class ConnectionHttpURL extends ConfigMaquina {
 				agencia = agencia.substring(agencia.length() - 4);
 				osdComputerName = osdComputerName.substring(osdComputerName.length() - 4);
 
-				configMaquina.setAgency(agencia);
-				configMaquina.setHostname(osdComputerName);
-				configMaquina.setXid(osdBradescoXID);
-				configMaquina.setNetworkAddress(osdBradescoIP);
-				configMaquina.setNetworkMask(osdBradescoMascara);
-				configMaquina.setDefaultGateway(osdBradescoGateway);
-				
-				
+				ConfigMaquina.setAgency(agencia);
+				ConfigMaquina.setHostname(osdComputerName);
+				ConfigMaquina.setXid(osdBradescoXID);
+				ConfigMaquina.setNetworkAddress(osdBradescoIP);
+				ConfigMaquina.setNetworkMask(osdBradescoMascara);
+				ConfigMaquina.setDefaultGateway(osdBradescoGateway);
+
 				System.out.println("AGENCIA: " + agencia);
 				System.out.println("ATM: " + osdComputerName);
 				System.out.println("IP: " + osdBradescoIP);
@@ -297,29 +338,121 @@ public class ConnectionHttpURL extends ConfigMaquina {
 			}
 		}
 
-			NodeList sList = doc.getElementsByTagName("SERVERS");
+		NodeList sList = doc.getElementsByTagName("SERVERS");
 
-			for (int temp = 0; temp < sList.getLength(); temp++) {
-				Node nNode = sList.item(temp);
-				// System.out.println("\nElemento corrente :" + nNode.getNodeName());
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
+		for (int temp = 0; temp < sList.getLength(); temp++) {
+			Node nNode = sList.item(temp);
+			// System.out.println("\nElemento corrente :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
 
-					if (environment.equalsIgnoreCase("TU3")){
-						url = eElement.getElementsByTagName("TU3").item(0).getTextContent();
-					} else if (environment.equalsIgnoreCase("TU4")){
-						url = eElement.getElementsByTagName("TU4").item(0).getTextContent();
-					} else if (environment.equalsIgnoreCase("TUH")){
-						url = eElement.getElementsByTagName("TUH").item(0).getTextContent();
-					} else if (environment.equalsIgnoreCase("TH")){
-						url = eElement.getElementsByTagName("TH").item(0).getTextContent();
-					}
+				if (environment.equalsIgnoreCase("TU3")) {
+					url = eElement.getElementsByTagName("TU3").item(0).getTextContent();
+				} else if (environment.equalsIgnoreCase("TU4")) {
+					url = eElement.getElementsByTagName("TU4").item(0).getTextContent();
+				} else if (environment.equalsIgnoreCase("TUH")) {
+					url = eElement.getElementsByTagName("TUH").item(0).getTextContent();
+				} else if (environment.equalsIgnoreCase("TH")) {
+					url = eElement.getElementsByTagName("TH").item(0).getTextContent();
 				}
 			}
-			System.out.println(url);
-			configMaquina.setUrlServer(url);
+		}
+		// System.out.println(url);
+		ConfigMaquina.setUrlServer(url);
 
 	}
+	private static String convertXmlToString(Document doc) {
+		DOMSource domSource = new DOMSource(doc);
+		StringWriter writer = new StringWriter();
+		StreamResult result = new StreamResult(writer);
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer transformer = null;
+		try {
+			transformer = tf.newTransformer();
+			transformer.transform(domSource, result);
+		} catch (TransformerException e) {
+			throw new RuntimeException(e);
+		}
+		return writer.toString();
+	}
 
+	private static Document convertStringToXml(String xmlString) {
+		String xml = "";
+
+//		String inputData = "{\"OSDJuncao\":" + ConfigMaquina.getAgency() + "," + "\"osdComputerName\":\""
+//				+ ConfigMaquina.getHostname() + "\"," + "\"osdBradescoXID\":\"" + ConfigMaquina.getXid() + "\","
+//				+ "\"osdBradescoIP\":\"" + ConfigMaquina.getNetworkAddress() + "\"," + "\"osdBradescoMascara\":\""
+//				+ ConfigMaquina.getNetworkMask() + "\"," + "\"osdBradescoGateway\":\""
+//				+ ConfigMaquina.getDefaultGateway() + "\"}";
+
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+		try {
+
+			// optional, but recommended
+			// process XML securely, avoid attacks like XML External Entities (XXE)
+			dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+			DocumentBuilder builder = dbf.newDocumentBuilder();
+
+			Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
+
+			FileWriter writeFile = null;
+			writeFile = new FileWriter("c:/Temp/Teste/htalog2.xml");
+			writeFile.write(xmlString);
+
+			writeFile.close();
+
+			return doc;
+
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+	
+	public static void readPropertyXMLJamNM(Boolean execut) throws Exception {
+		File fXmlFile = new File("C:\\Temp\\Teste\\DadosJamNM.xml");
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(fXmlFile);
+		
+		String osdBradescoIP = "";
+		String osdBradescoMascara = "";
+		String osdBradescoGateway = "";
+		String code = "";
+
+
+		System.out.println("Root do elemento: " + doc.getDocumentElement().getNodeName());
+		NodeList nList = doc.getElementsByTagName("parameters");
+
+		System.out.println("----------------------------");
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node nNode = nList.item(temp);
+			// System.out.println("\nElemento corrente :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+
+				osdBradescoIP = eElement.getElementsByTagName("networkAddress").item(0).getTextContent();
+				osdBradescoMascara = eElement.getElementsByTagName("networkMask").item(0).getTextContent();
+				osdBradescoGateway = eElement.getElementsByTagName("defaultGateway").item(0).getTextContent();
+				code = eElement.getElementsByTagName("code").item(0).getTextContent();
+				
+
+				
+				ConfigMaquina.setNetworkAddressJamNM(osdBradescoIP);
+				ConfigMaquina.setNetworkMaskJamNM(osdBradescoMascara);
+				ConfigMaquina.setDefaultGatewayJamNM(osdBradescoGateway);
+				ConfigMaquina.setCode(code);
+
+				
+				System.out.println("IP: " + osdBradescoIP);
+				System.out.println("MASCARA: " + osdBradescoMascara);
+				System.out.println("GATEWAY: " + osdBradescoGateway);
+
+			}
+		}
+
+	}
 
 }

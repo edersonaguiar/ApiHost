@@ -27,5 +27,25 @@
 	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/httpasyncclient-4.0-beta4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/commons-logging-api-1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/jackson-core-lgpl-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/jackson-all-1.7.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Downloads/jar_files (6).zip"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/httpasyncclient-4.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/httpclient-4.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/httpcore-4.4.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/httpcore-nio-4.4.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/httpmime-4.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/json-20160212.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/unirest-java-1.4.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/httpcore-4.4.4 - Copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/jackson-core-lgpl-1.0.1 - Copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/json-20160212 - Copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/unirest-java-1.4.9 - Copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/commons-codec-1.9 - Copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/commons-logging-1.2 - Copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/httpasyncclient-4.1.1 - Copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/edesilva/Desktop/httpclient-4.5.2 - Copia.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

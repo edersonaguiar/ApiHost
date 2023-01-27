@@ -8,6 +8,20 @@ public class Modelo {
 
 	private int id;
 	private String nome;
+	public static int idModelBDN;
+	
+	
+	
+	
+	public static int getIdModelBDN() {
+		return idModelBDN;
+	}
+
+	public static void setIdModelBDN(int idModelBDN) {
+		Modelo.idModelBDN = idModelBDN;
+	}
+
+	
 	
 	//private List<Modelo> modelos;
 	//private ObservableList<Modelo> obsModelos;
@@ -16,6 +30,11 @@ public class Modelo {
 		// TODO Auto-generated constructor stub
 
 		this.nome = nome;
+		
+	}
+
+	public Modelo() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {

@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <OSDJuncao>BDN000003987</OSDJuncao>
-  <OSDComputerName>BDN000007002</OSDComputerName>
-  <OSDBradescoIP>10.255.225.27</OSDBradescoIP>
-  <OSDBradescoMascara>255.255.255.128</OSDBradescoMascara>
-  <OSDBradescoGateway>10.255.225.12</OSDBradescoGateway>
-  <OSDBradescoXID>01605035</OSDBradescoXID>
-  <OSDBradescoBDNModelo>09</OSDBradescoBDNModelo>
-</parameters>
+"{&quot;OSDJuncao&quot;:MaskTextField[id=juncaoCamp, styleClass=text-input text-field],&quot;osdComputerName&quot;:&quot;MaskTextField[id=bdnCamp, styleClass=text-input text-field]&quot;,&quot;osdBradescoXID&quot;:&quot;MaskTextField[id=xidCamp, styleClass=text-input text-field]&quot;,&quot;osdBradescoIP&quot;:&quot;MaskTextField[id=ipNetworkAddressDig, styleClass=text-input text-field]&quot;,&quot;osdBradescoMascara&quot;:&quot;MaskTextField[id=ipNetworkMaskDig, styleClass=text-input text-field]&quot;,&quot;osdBradescoGateway&quot;:&quot;MaskTextField[id=ipNetworkGatewayDig, styleClass=text-input text-field]&quot;}"
