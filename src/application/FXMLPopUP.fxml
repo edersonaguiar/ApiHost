@@ -17,12 +17,12 @@
             <Insets top="38.0" />
          </padding>
          <children>
-            <ImageView fx:id="ImageView" fitHeight="78.0" fitWidth="232.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="ImageView" fitHeight="78.0" fitWidth="232.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@bradeco-removebg.png" />
                </image>
             </ImageView>
-            <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="202.0" layoutY="27.0" prefHeight="64.0" prefWidth="590.0" text="Titulo" textFill="WHITE">
+            <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="91.0" prefHeight="64.0" prefWidth="957.0" text="Titulo" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="39.0" />
                </font>

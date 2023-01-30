@@ -101,6 +101,15 @@ public class FXMLControllerDataEnter implements Initializable {
 	@FXML
     void loadModel() throws Exception {
 		
+		if(juncaoCamp.getText().equals("") || bdnCamp.getText().equals("") || xidCamp.getText().equals("")
+			|| ipNetworkAddressDig.getText().equals("") || ipNetworkMaskDig.getText().equals("")
+			|| ipNetworkGatewayDig.getText().equals("")) {
+			
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("ALERTA");
+			alert.setHeaderText("POR FAVOR, PREENCHA TODOS OS CAMPOS!");
+			alert.show();
+		} else {
 		
 		ConfigMaquina.setAgency(juncaoCamp.getText());
 		ConfigMaquina.setHostname(bdnCamp.getText());
@@ -117,8 +126,7 @@ public class FXMLControllerDataEnter implements Initializable {
 	            "        <OSDBradescoMascara>"+ ConfigMaquina.getNetworkMask()+"</OSDBradescoMascara>\n" +
 	            "        <OSDBradescoGateway>"+ ConfigMaquina.getDefaultGateway()+"</OSDBradescoGateway>\n" +
 	            "        <OSDBradescoXID>"+ ConfigMaquina.getXid()+"</OSDBradescoXID>\n" +
-	            "        <OSDBradescoStatusCode>"+ ConfigMaquina.getCode()+"</OSDBradescoStatusCode>\n" +
-	            "        <OSDBradescoBDNModelo>9</OSDBradescoBDNModelo>\n" +
+	            "        <OSDBradescoBDNModelo>"+ ConfigMaquina.getModelATM()+"</OSDBradescoBDNModelo>\n" +
 	          
 	           
 	            "</parameters>";
@@ -136,13 +144,14 @@ public class FXMLControllerDataEnter implements Initializable {
 
 		//FXMLControllerDataBase.readPropertyXML(true);
 		
-		if (ConfigMaquina.getCode().equals("2")) {
+		if (ConfigMaquina.getCode().equals("0")) {
 			main.start2("FXMLInfoNetwork.fxml");
 		} else {
+
 			main.start2("FXMLPopUP.fxml");
-	        
 		}
-    }
+	}
+ }
 
 	@FXML
 	public void previousScreen() throws Exception {
@@ -156,9 +165,9 @@ public class FXMLControllerDataEnter implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		ipNetworkMaskDig.setMask("NNNNNNNNNNNNNNN");
-		bdnCamp.setMask("AAAAAAAA");
+		bdnCamp.setMask("AAAAAA");
 		xidCamp.setMask("AAAAAAAA");
-		juncaoCamp.setMask("AAAAAAAA");
+		juncaoCamp.setMask("AAAA");
 		ipNetworkAddressDig.setMask("NNNNNNNNNNNNNNN");
 		ipNetworkGatewayDig.setMask("NNNNNNNNNNNNNNN");
 
@@ -201,7 +210,7 @@ public class FXMLControllerDataEnter implements Initializable {
 		return writer.toString();
 	}
 
-	private static Document convertStringToXml(String xmlString) {
+	public static Document convertStringToXml(String xmlString) {
 		String xml = "";
 
 //		String inputData = "{\"OSDJuncao\":" + ConfigMaquina.getAgency() + "," + "\"osdComputerName\":\""

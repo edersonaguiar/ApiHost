@@ -71,9 +71,16 @@ public class FXMLPopUPController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		
-		statusCode();
+		try {
+			ConnectionHttpURL.readPropertyXMLJamNMCode(true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		
+		String code = "";
+		statusCode();
 		counter++;
 
 		yes.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
@@ -106,14 +113,19 @@ public class FXMLPopUPController implements Initializable {
 
 		if (ConfigMaquina.getCode().equals("0")) {
 			Main main = new Main();
+
 			try {
 				main.start2("FXMLInfoNetwork.fxml");
 				code = ConfigMaquina.getCode();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+
 			}
-		} else if (ConfigMaquina.getCode().equals(" 50")) {
+		} else if (ConfigMaquina.getCode().equals("10")) {
+			title.setText("Requisição Inválida");
+			code = ConfigMaquina.getCode();	
+		} else if (ConfigMaquina.getCode().equals("50")) {
 			title.setText("Serviço Desabilitado no Servidor");
 			code = ConfigMaquina.getCode();
 		} else if (ConfigMaquina.getCode().equals("200")) {
@@ -135,9 +147,9 @@ public class FXMLPopUPController implements Initializable {
 			title.setText("Erro no Processamento da Requisição");
 			code = ConfigMaquina.getCode();
 		} else if (ConfigMaquina.getCode().equals("404")) {
-			title.setText("Comunicação Falhou!");
+			title.setText("Erro de Comunicação");
 			code = ConfigMaquina.getCode();
-		}
+		} 
 
 		return code;
 	}

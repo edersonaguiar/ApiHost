@@ -9,6 +9,7 @@ import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -73,12 +74,12 @@ public class FXMLControllerSelectModel implements Initializable {
 		ImageView.setImage(image);
 		
 
-		try {
-			loadModel();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			loadModel();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@FXML
@@ -95,8 +96,16 @@ public class FXMLControllerSelectModel implements Initializable {
 			setIdModelAtm(2);
 		}
 
-		Main main = new Main();
-		main.start2("FXMLModelATM.fxml");
+		if(radio != null) {
+			Main main = new Main();
+			main.start2("FXMLModelATM.fxml");
+		} else {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("ALERTA");
+			alert.setHeaderText("SELECIONE UM MODELO PARA CONTINUAR!");
+			alert.show();
+		}
+		
 
 	}
 

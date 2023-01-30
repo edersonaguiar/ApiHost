@@ -111,7 +111,7 @@ public class FXMLControllerDataBase implements Initializable {
 			
 			ipNetworkAddressDig.setText(ConfigMaquina.getNetworkAddressJamNM());
 			ipNetworkMaskDig.setText(ConfigMaquina.getNetworkMaskJamNM());
-			ipNetworkGatewayDig.setText(ConfigMaquina.getNetworkMaskJamNM());
+			ipNetworkGatewayDig.setText(ConfigMaquina.getDefaultGatewayJamNM());
 
 			bdnCamp.setText(ConfigMaquina.getHostname());
 			juncaoCamp.setText(ConfigMaquina.getAgency());
@@ -125,11 +125,29 @@ public class FXMLControllerDataBase implements Initializable {
 			
 			ipNetworkAddressDig.setText(ConfigMaquina.getNetworkAddressJamNM());
 			ipNetworkMaskDig.setText(ConfigMaquina.getNetworkMaskJamNM());
-			ipNetworkGatewayDig.setText(ConfigMaquina.getNetworkMaskJamNM());
+			ipNetworkGatewayDig.setText(ConfigMaquina.getDefaultGatewayJamNM());
 
 			bdnCamp.setText(ConfigMaquina.getHostname());
 			juncaoCamp.setText(ConfigMaquina.getAgency());
 			xidCamp.setText(ConfigMaquina.getXid());
+			
+			String str = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+		            "<parameters>\n" +
+		            "        <OSDJuncao>"+ ConfigMaquina.getAgency() +"</OSDJuncao>\n" +
+		            "        <OSDComputerName>"+ ConfigMaquina.getHostname()+"</OSDComputerName>\n" +
+		            "        <OSDBradescoIP>"+ ConfigMaquina.getNetworkAddressJamNM()+"</OSDBradescoIP>\n" +
+		            "        <OSDBradescoMascara>"+ ConfigMaquina.getNetworkMaskJamNM()+"</OSDBradescoMascara>\n" +
+		            "        <OSDBradescoGateway>"+ ConfigMaquina.getDefaultGatewayJamNM()+"</OSDBradescoGateway>\n" +
+		            "        <OSDBradescoXID>"+ ConfigMaquina.getXid()+"</OSDBradescoXID>\n" +
+		            "        <OSDBradescoBDNModelo>"+ ConfigMaquina.getModelATM()+"</OSDBradescoBDNModelo>\n" +
+		          
+		           
+		            "</parameters>";
+			
+			FXMLControllerDataEnter fXMLControllerDataEnter = new FXMLControllerDataEnter();
+			
+			fXMLControllerDataEnter.convertStringToXml(str);
+		
 		}
 	
 		

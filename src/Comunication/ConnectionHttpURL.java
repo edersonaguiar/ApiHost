@@ -4,14 +4,19 @@ import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +51,8 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.utils.*;
 import com.mashape.unirest.http.Unirest;
 
-
 import application.FXMLControllerSelectModel;
+import application.Main;
 
 public class ConnectionHttpURL extends ConfigMaquina {
 
@@ -114,24 +119,41 @@ public class ConnectionHttpURL extends ConfigMaquina {
 		// Unirest.setTimeouts(0, 3);
 
 		try {
-		
-		HttpResponse<String> response = Unirest.post(url).header("content-type", "application/json;charset=UTF-8")
-				.header("content-language", "en-US")
-				.body("{\r\n  \"agency\": " + agencyNumber + ",\r\n  \"hostname\": " + hostnameNumber + "\r\n}")
-				.asString();
-		
-		ConvertJsonXml(
-		"{" +
-			   "parameters"+":"+ 
-			   response.getBody() +
-			   
-			"}");
-		readPropertyXMLJamNM(true);
-		
-       // Document document = convertStringToXml(response.getBody());
+			HttpResponse<String> response = Unirest.post(url).header("content-type", "application/json;charset=UTF-8")
+					.header("content-language", "en-US")
+					.body("{\r\n  \"agency\": " + agencyNumber + ",\r\n  \"hostname\": " + hostnameNumber + "\r\n}")
+					.asString();
 
-        //String xml = convertXmlToString(document);
+			String bodyResponse = removeAcentos(response.getBody());
+			if (response.getStatus() == 404) {
+				ConfigMaquina.setCode("404");
+				System.out.println(response.getStatus() + "ERRO DE COMUNICAÇÃO");
+				
+				ConvertJsonXml("{" + "parameters" + ":" +"{" +
+					  "code"+":"+ "404"+","+
+					  "message"+":"+ "ERRO DE COMUNICACAO" +
+					"}" + "}");
+				readPropertyXMLJamNMCode(true);
 
+
+			} else {
+
+				ConvertJsonXml("{" + "parameters" + ":" + bodyResponse +
+
+						"}");
+				readPropertyXMLJamNMCode(true);
+
+			}
+
+		} catch (Exception e) {
+
+			readPropertyXMLJamNMCode(true);
+
+		}
+
+		// Document document = convertStringToXml(response.getBody());
+
+		// String xml = convertXmlToString(document);
 
 //		
 //		JSONObject jsoObject = new JSONObject(response.getBody());
@@ -142,10 +164,7 @@ public class ConnectionHttpURL extends ConfigMaquina {
 //	        String xml = convertXmlToString(document);
 //	        System.out.println(xml);
 //	        
-	       
-		
-	
-		
+
 		// ConfigMaquina.setTrx(response.getStatusText());
 
 		// responseServer.getBody();
@@ -210,14 +229,7 @@ public class ConnectionHttpURL extends ConfigMaquina {
 
 		// print result
 
-
-	} catch (Exception e) {
-			System.out.println("ERROR"+ e);
-			Comunication.ConfigMaquina.setCode("404");
-			
-		}
-
-		//onvertJsonXml(xmlStr2);
+		// onvertJsonXml(xmlStr2);
 
 //				ConvertJsonTXT(jsonValueTxt);
 //
@@ -229,10 +241,11 @@ public class ConnectionHttpURL extends ConfigMaquina {
 	public static String ConvertJsonXml(String JsonDados) {
 
 		String xml = "";
-		
+
 		try {
+
 			JSONObject jsoObject = new JSONObject(JsonDados);
-			xml = xml + XML.toString( jsoObject );
+			xml = xml + XML.toString(jsoObject);
 
 			FileWriter writeFile = null;
 			writeFile = new FileWriter("c:/Temp/Teste/DadosJamNM.xml");
@@ -294,8 +307,8 @@ public class ConnectionHttpURL extends ConfigMaquina {
 				osdBradescoIP = eElement.getElementsByTagName("OSDBradescoIP").item(0).getTextContent();
 				osdBradescoMascara = eElement.getElementsByTagName("OSDBradescoMascara").item(0).getTextContent();
 				osdBradescoGateway = eElement.getElementsByTagName("OSDBradescoGateway").item(0).getTextContent();
-				agencia = agencia.substring(agencia.length() - 4);
-				osdComputerName = osdComputerName.substring(osdComputerName.length() - 4);
+				//agencia = agencia.substring(agencia.length() - 4);
+				//osdComputerName = osdComputerName.substring(osdComputerName.length() - 4);
 
 				ConfigMaquina.setAgency(agencia);
 				ConfigMaquina.setHostname(osdComputerName);
@@ -361,6 +374,7 @@ public class ConnectionHttpURL extends ConfigMaquina {
 		ConfigMaquina.setUrlServer(url);
 
 	}
+
 	private static String convertXmlToString(Document doc) {
 		DOMSource domSource = new DOMSource(doc);
 		StringWriter writer = new StringWriter();
@@ -410,18 +424,18 @@ public class ConnectionHttpURL extends ConfigMaquina {
 		}
 
 	}
-	
+
 	public static void readPropertyXMLJamNM(Boolean execut) throws Exception {
 		File fXmlFile = new File("C:\\Temp\\Teste\\DadosJamNM.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
-		
+
 		String osdBradescoIP = "";
 		String osdBradescoMascara = "";
 		String osdBradescoGateway = "";
 		String code = "";
-
+		String osdBradescoMessage = "";
 
 		System.out.println("Root do elemento: " + doc.getDocumentElement().getNodeName());
 		NodeList nList = doc.getElementsByTagName("parameters");
@@ -436,16 +450,18 @@ public class ConnectionHttpURL extends ConfigMaquina {
 				osdBradescoIP = eElement.getElementsByTagName("networkAddress").item(0).getTextContent();
 				osdBradescoMascara = eElement.getElementsByTagName("networkMask").item(0).getTextContent();
 				osdBradescoGateway = eElement.getElementsByTagName("defaultGateway").item(0).getTextContent();
+				osdBradescoMessage = eElement.getElementsByTagName("message").item(0).getTextContent();
 				code = eElement.getElementsByTagName("code").item(0).getTextContent();
-				
 
-				
 				ConfigMaquina.setNetworkAddressJamNM(osdBradescoIP);
 				ConfigMaquina.setNetworkMaskJamNM(osdBradescoMascara);
 				ConfigMaquina.setDefaultGatewayJamNM(osdBradescoGateway);
+				ConfigMaquina.setMessage(osdBradescoMessage);
 				ConfigMaquina.setCode(code);
 
-				
+				// is.setEncoding("UTF-8"); -> This line causes error! Content is not allowed in
+				// prolog
+
 				System.out.println("IP: " + osdBradescoIP);
 				System.out.println("MASCARA: " + osdBradescoMascara);
 				System.out.println("GATEWAY: " + osdBradescoGateway);
@@ -453,6 +469,58 @@ public class ConnectionHttpURL extends ConfigMaquina {
 			}
 		}
 
+	}
+
+	public static void readPropertyXMLJamNMCode(Boolean execut) throws Exception {
+		File fXmlFile = new File("C:\\Temp\\Teste\\DadosJamNM.xml");
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(fXmlFile);
+
+		String osdBradescoIP = "";
+		String osdBradescoMascara = "";
+		String osdBradescoGateway = "";
+		String code = "";
+		String osdBradescoMessage = "";
+
+		System.out.println("Root do elemento: " + doc.getDocumentElement().getNodeName());
+		NodeList nList = doc.getElementsByTagName("parameters");
+
+		System.out.println("----------------------------");
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node nNode = nList.item(temp);
+			// System.out.println("\nElemento corrente :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+
+				osdBradescoMessage = eElement.getElementsByTagName("message").item(0).getTextContent();
+				code = eElement.getElementsByTagName("code").item(0).getTextContent();
+
+				ConfigMaquina.setMessage(osdBradescoMessage);
+				ConfigMaquina.setCode(code);
+
+				// is.setEncoding("UTF-8"); -> This line causes error! Content is not allowed in
+				// prolog
+
+				System.out.println("IP: " + osdBradescoIP);
+				System.out.println("MASCARA: " + osdBradescoMascara);
+				System.out.println("GATEWAY: " + osdBradescoGateway);
+
+			}
+		}
+
+	}
+
+	public static String removeAcentos(String texto) {
+		String acentos[][] = new String[][] { { "á", "a" }, { "Á", "A" }, { "à", "a" }, { "À", "A" }, { "â", "a" },
+				{ "Â", "A" }, { "ã", "a" }, { "Ã", "A" }, { "é", "e" }, { "É", "E" }, { "ê", "e" }, { "Ê", "E" },
+				{ "í", "i" }, { "Í", "I" }, { "ó", "o" }, { "Ó", "O" }, { "ô", "o" }, { "Ô", "O" }, { "õ", "o" },
+				{ "Õ", "O" }, { "ú", "u" }, { "Ú", "U" }, { "ç", "c" }, { "Ç", "C" } };
+
+		for (int i = 0; i < acentos.length; i++)
+			texto = texto.replace(acentos[i][0], acentos[i][1]);
+
+		return texto;
 	}
 
 }

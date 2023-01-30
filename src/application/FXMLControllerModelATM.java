@@ -15,11 +15,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import Comunication.ConfigMaquina;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -70,8 +72,21 @@ public class FXMLControllerModelATM implements Initializable {
 	@FXML
 	public void loadModel() throws Exception {
 
-		Main main = new Main();
-		main.start2("FXMLDataEnter.fxml");
+		
+		
+		if(listModel.getSelectionModel().getSelectedItem() != null) {
+			ConfigMaquina.setModelATM(listModel.getSelectionModel().getSelectedItem().getNome());
+
+			Main main = new Main();
+			main.start2("FXMLDataEnter.fxml");
+		} else {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("ALERTA");
+			alert.setHeaderText("SELECIONE UM MODELO PARA CONTINUAR!");
+			alert.show();
+		}
+		
+		
 
 	}
 

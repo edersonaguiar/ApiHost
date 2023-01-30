@@ -10,6 +10,7 @@ public class ConfigMaquina {
 	private static String agency;
 	private static String hostname;
 	private static String xid;
+	private static String modelATM;
 	private static String networkMask;
 	private static String networkAddress;
 	private static String defaultGateway;
@@ -135,5 +136,15 @@ public class ConfigMaquina {
 	public static void setDefaultGatewayJamNM(String defaultGatewayJamNM) {
 		ConfigMaquina.defaultGatewayJamNM = defaultGatewayJamNM;
 	}
+
+	public static String getModelATM() {
+		return modelATM;
+	}
+
+	public static void setModelATM(String modelATM) {
+		ConfigMaquina.modelATM = modelATM;
+	}
+
+	
 
 }
